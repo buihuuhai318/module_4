@@ -12,7 +12,7 @@
 </head>
 <body>
 <form action="/tuDien" method="post">
-    <input type="text" name="input" value="${input}">
+    <input type="text" name="input" value="${input}" placeholder="nhap tai day">
     <button type="submit">dich</button>
 </form>
 <input type="text" name="output" value="${output}">
