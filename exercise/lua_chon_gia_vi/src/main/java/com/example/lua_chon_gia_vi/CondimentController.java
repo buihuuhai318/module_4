@@ -18,7 +18,7 @@ public class CondimentController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestParam("condiment") String[] condiment, Model model) {
+    public String save(@RequestParam(value = "condiment", defaultValue = "", required = false) String[] condiment, Model model) {
         List<String> list = Arrays.asList(condiment);
         model.addAttribute("list", list);
         return "sandwich";
