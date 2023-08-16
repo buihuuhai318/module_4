@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="/layout :: head">
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a type="button" class="btn" th:href="@{/blog}">
+        Back to list
+    </a>
+</p>
+
+<form th:action="@{/blog/save}" th:object="${blog}" method="post" novalidate="novalidate">
+    <input type="hidden" th:field="*{id}">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{title}">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Author</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{author}">
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a content here" id="floatingTextarea2" style="height: 100px" th:field="*{content}"></textarea>
+        <label for="floatingTextarea2">Content</label>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
