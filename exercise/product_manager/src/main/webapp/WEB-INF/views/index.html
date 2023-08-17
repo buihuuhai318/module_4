@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/layout :: head">
     <title>ListProducts</title>
 </head>
@@ -9,7 +9,7 @@
 
 <form th:action="@{/products/search}" method="POST" novalidate="novalidate">
     <label for="name"></label>
-    <input type="text" id="name" name="name" th:value="${name}" placeholder="Enter here..."/>
+    <input type="text" id="name" name="name" placeholder="Enter here..."/>
     <input type="submit" value="Search"/>
 </form>
 
