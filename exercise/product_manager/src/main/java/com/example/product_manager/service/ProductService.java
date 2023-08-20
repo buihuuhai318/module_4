@@ -5,6 +5,7 @@ import com.example.product_manager.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -36,5 +37,10 @@ public class ProductService implements IProductService {
     @Override
     public void createNew(Product product) {
         productRepository.createNew(product);
+    }
+
+    @Override
+    public List<Product> searchProduct(String product) {
+        return productRepository.searchProduct(product);
     }
 }

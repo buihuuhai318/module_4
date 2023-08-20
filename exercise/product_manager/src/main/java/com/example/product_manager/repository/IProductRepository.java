@@ -2,6 +2,7 @@ package com.example.product_manager.repository;
 
 import com.example.product_manager.model.Product;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IProductRepository {
@@ -14,4 +15,6 @@ public interface IProductRepository {
     void deleteProduct(int id);
 
     void createNew(Product product);
+
+    List<Product> searchProduct(String product);
 }

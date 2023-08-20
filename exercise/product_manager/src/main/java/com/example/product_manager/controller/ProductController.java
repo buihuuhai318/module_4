@@ -72,13 +72,7 @@ public class ProductController {
 
     @PostMapping("/search")
     public String search(@RequestParam String name, Model model) {
-        List<Product> productList = new ArrayList<>(productService.listProduct().values());
-        List<Product> productListTemp = new ArrayList<>();
-        for (Product product : productList) {
-            if (product.getName().contains(name)) {
-                productListTemp.add(product);
-            }
-        }
+        List<Product> productListTemp = productService.searchProduct(name);
         model.addAttribute("productListTemp", productListTemp);
         return "search";
     }

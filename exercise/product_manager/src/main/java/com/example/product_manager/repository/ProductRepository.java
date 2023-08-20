@@ -3,7 +3,9 @@ package com.example.product_manager.repository;
 import com.example.product_manager.model.Product;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -43,5 +45,17 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void createNew(Product product) {
         listProduct.put(product.getId(), product);
+    }
+
+    @Override
+    public List<Product> searchProduct(String s) {
+        List<Product> productList = new ArrayList<>(listProduct().values());
+        List<Product> productListTemp = new ArrayList<>();
+        for (Product product : productList) {
+            if (product.getName().contains(s)) {
+                productListTemp.add(product);
+            }
+        }
+        return productListTemp;
     }
 }
