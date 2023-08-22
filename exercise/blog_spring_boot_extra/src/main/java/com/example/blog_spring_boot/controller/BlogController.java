@@ -59,6 +59,8 @@ public class BlogController {
         }
         Page<Blog> blogs = blogService.findBlogByTitleContaining(pageable, valueSearchTitle);
         model.addAttribute("blogs", blogs);
+        model.addAttribute("category", new Category());
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("searchTitle", valueSearchTitle);
         return "list";
     }
@@ -100,5 +102,15 @@ public class BlogController {
         blogService.save(blog);
         redirectAttributes.addFlashAttribute("message", "Blog Updated Successfully!");
         return "redirect:/blogs";
+    }
+
+    @GetMapping("/category/{id}")
+    public String listByCategory(@PathVariable long id, Model model, @PageableDefault(page = 0, size = 2) Pageable pageable) {
+        Category category = categoryService.findById(id).orElse(null);
+        Page<Blog> blogs = blogService.findBlogByCategoriesContaining(category, pageable);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("category", category);
+        model.addAttribute("categories", categoryService.findAll());
+        return "list";
     }
 }

@@ -1,6 +1,7 @@
 package com.example.blog_spring_boot.service.imp;
 
 import com.example.blog_spring_boot.model.Blog;
+import com.example.blog_spring_boot.model.Category;
 import com.example.blog_spring_boot.repository.IBlogRepository;
 import com.example.blog_spring_boot.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,10 @@ public class BlogService implements IBlogService {
     @Override
     public Page<Blog> findBlogByTitleContaining(Pageable pageable, String searchName) {
         return blogRepository.findBlogByTitleContaining(pageable, searchName);
+    }
+
+    @Override
+    public Page<Blog> findBlogByCategoriesContaining(Category category, Pageable pageable) {
+        return blogRepository.findBlogByCategoriesContaining(category, pageable);
     }
 }

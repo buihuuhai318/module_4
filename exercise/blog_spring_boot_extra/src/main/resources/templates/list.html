@@ -17,6 +17,20 @@
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
         </div>
     </form>
+    <div class="input-group mb-3" style="width: 30%">
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false" th:text="${category.name}">
+                Category
+            </a>
+            <ul class="dropdown-menu">
+                <th:block th:each="category : ${categories}">
+                    <li><a class="dropdown-item" th:href="@{/blogs/category/__${category.id}__}"
+                           th:text="${category.name}"></a></li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
     <p>
         <button class="btn btn-primary" onclick="window.location.href='/blogs/create'">Create new blog</button>
         <button class="btn btn-primary" onclick="window.location.href='/categories/create'">Create new category</button>
