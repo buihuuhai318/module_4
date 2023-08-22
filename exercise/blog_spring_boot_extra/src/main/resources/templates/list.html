@@ -19,7 +19,11 @@
     </form>
     <div class="input-group mb-3" style="width: 30%">
         <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            <a th:if="${category == null}" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Category
+            </a>
+            <a th:unless="${category == null}" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false" th:text="${category.name}">
                 Category
             </a>
@@ -134,15 +138,15 @@
                     </th:block>
                 </li>
             </th:block>
-            <th:block th:if="${blogs.number == blogs.size + 1}">
+            <th:block th:if="${blogs.hasNext()}">
                 <li class="page-item">
-                    <a class="page-link disabled"
+                    <a class="page-link"
                        th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
                 </li>
             </th:block>
-            <th:block th:unless="${blogs.number == blogs.size + 1}">
+            <th:block th:unless="${blogs.hasNext()}">
                 <li class="page-item">
-                    <a class="page-link"
+                    <a class="page-link disabled"
                        th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
                 </li>
             </th:block>

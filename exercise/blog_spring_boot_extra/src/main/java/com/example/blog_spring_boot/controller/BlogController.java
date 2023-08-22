@@ -59,7 +59,6 @@ public class BlogController {
         }
         Page<Blog> blogs = blogService.findBlogByTitleContaining(pageable, valueSearchTitle);
         model.addAttribute("blogs", blogs);
-        model.addAttribute("category", new Category());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("searchTitle", valueSearchTitle);
         return "list";
