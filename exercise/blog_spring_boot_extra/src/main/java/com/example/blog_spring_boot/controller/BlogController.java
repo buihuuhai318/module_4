@@ -6,6 +6,10 @@ import com.example.blog_spring_boot.service.IAuthorService;
 import com.example.blog_spring_boot.service.IBlogService;
 import com.example.blog_spring_boot.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +51,15 @@ public class BlogController {
     }
 
     @GetMapping("")
-    public String listBlogs(Model model) {
-        model.addAttribute("blogs", blogService.findAll());
+    public String listBlogs(Model model, @PageableDefault(page = 0, size = 2, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
+                                @RequestParam Optional<String> searchTitle) {
+        String valueSearchTitle = "";
+        if (searchTitle.isPresent()) {
+            valueSearchTitle = searchTitle.get();
+        }
+        Page<Blog> blogs = blogService.findBlogByTitleContaining(pageable, valueSearchTitle);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("searchTitle", valueSearchTitle);
         return "list";
     }
 

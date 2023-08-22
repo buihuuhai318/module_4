@@ -10,6 +10,13 @@
 
 <div class="row" style="width: 80%; margin: 5em">
     <h1>List Blog</h1>
+    <form action="/blogs">
+        <div class="input-group mb-3" style="width: 30%">
+            <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username"
+                   aria-describedby="button-addon2" name="searchTitle" th:value="${searchTitle}">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+        </div>
+    </form>
     <p>
         <button class="btn btn-primary" onclick="window.location.href='/blogs/create'">Create new blog</button>
         <button class="btn btn-primary" onclick="window.location.href='/categories/create'">Create new category</button>
@@ -59,6 +66,7 @@
                         Delete
                     </button>
                 </td>
+
                 <!-- Modal -->
                 <div class="modal fade" th:id="'exampleModal_' + ${blog.id}" tabindex="-1"
                      th:aria-labelledby="'exampleModalLabel_' + ${blog.id}" aria-hidden="true">
@@ -85,6 +93,47 @@
         </th:block>
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <th:block th:if="${blogs.number == 0}">
+                <li class="page-item">
+                    <a class="page-link disabled"
+                       th:href="@{/blogs(page=${blogs.number - 1}, searchTitle=${searchTitle})}"
+                       th:disabled="${blogs.number == 0}">Previous</a>
+                </li>
+            </th:block>
+            <th:block th:unless="${blogs.number == 0}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/blogs(page=${blogs.number - 1}, searchTitle=${searchTitle})}">Previous</a>
+                </li>
+            </th:block>
+            <th:block th:each="index : ${#numbers.sequence(0, blogs.totalPages - 1)}">
+                <li class="page-item">
+                    <th:block th:if="${index.equals(blogs.number)}">
+                        <a class="page-link active" th:href="@{/blogs(page=${index}, searchTitle=${searchTitle})}"
+                           th:text="${index + 1}"></a>
+                    </th:block>
+                    <th:block th:unless="${index.equals(blogs.number)}">
+                        <a class="page-link" th:href="@{/blogs(page=${index}, searchTitle=${searchTitle})}"
+                           th:text="${index + 1}"></a>
+                    </th:block>
+                </li>
+            </th:block>
+            <th:block th:if="${blogs.number == blogs.size}">
+                <li class="page-item">
+                    <a class="page-link disabled"
+                       th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
+                </li>
+            </th:block>
+            <th:block th:unless="${blogs.number == blogs.size}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
 </div>
 
 
