@@ -11,7 +11,7 @@
 <div class="row" style="width: 80%; margin: 5em">
     <h1>List Author</h1>
     <p>
-        <button class="btn btn-primary" onclick="window.location.href='/blogs/createCategory'">Create new category</button>
+        <button class="btn btn-primary" onclick="window.location.href='/blogs/create'">Create new category</button>
     </p>
     <p>
         <button class="btn btn-primary" onclick="window.location.href='/categories'">List category</button>
@@ -41,8 +41,34 @@
                     <a class="btn btn-primary" th:href="@{/categories/update/__${category.id}__}">Edit</a>
                 </td>
                 <td>
-                    <a class="btn btn-danger" th:href="@{/categories/delete/__${category.id}__}">Delete</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            th:data-bs-target="'#exampleModal_' + ${category.id}">
+                        Delete
+                    </button>
                 </td>
+                <!-- Modal -->
+                <div class="modal fade" th:id="'exampleModal_' + ${category.id}" tabindex="-1"
+                     th:aria-labelledby="'exampleModalLabel_' + ${category.id}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:id="'exampleModalLabel_' + ${category.id}">Delete
+                                    Blog</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p th:text="'Sure to delete ' + ${category.name}"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form th:action="@{/categories/delete/__${category.id}__}" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </tr>
         </th:block>
         </tbody>

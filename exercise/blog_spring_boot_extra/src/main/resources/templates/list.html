@@ -58,11 +58,7 @@
                             th:data-bs-target="'#exampleModal_' + ${blog.id}">
                         Delete
                     </button>
-                    <!--                    <a class="btn btn-danger" th:href="@{/blogs/delete/__${blog.id}__}">Delete</a>-->
                 </td>
-                <!-- Button trigger modal -->
-
-
                 <!-- Modal -->
                 <div class="modal fade" th:id="'exampleModal_' + ${blog.id}" tabindex="-1"
                      th:aria-labelledby="'exampleModalLabel_' + ${blog.id}" aria-hidden="true">
@@ -74,7 +70,7 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p th:text="'Sure to delete' + ${blog.title}"></p>
+                                <p th:text="'Sure to delete ' + ${blog.title}"></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

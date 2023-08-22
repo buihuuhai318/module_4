@@ -9,10 +9,7 @@ import com.example.blog_spring_boot.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -42,5 +39,12 @@ public class CategoryController {
     public String listCategories(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "categories";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable long id, RedirectAttributes redirectAttributes) {
+        categoryService.remove(id);
+        redirectAttributes.addFlashAttribute("message", "Category Deleted Successfully!");
+        return "redirect:/categories";
     }
 }
