@@ -111,7 +111,7 @@
             <th:block th:each="index : ${#numbers.sequence(0, blogs.totalPages - 1)}">
                 <li class="page-item">
                     <th:block th:if="${index.equals(blogs.number)}">
-                        <a class="page-link active" th:href="@{/blogs(page=${index}, searchTitle=${searchTitle})}"
+                        <a class="page-link disabled" th:href="@{/blogs(page=${index}, searchTitle=${searchTitle})}"
                            th:text="${index + 1}"></a>
                     </th:block>
                     <th:block th:unless="${index.equals(blogs.number)}">
@@ -120,13 +120,13 @@
                     </th:block>
                 </li>
             </th:block>
-            <th:block th:if="${blogs.number == blogs.size}">
+            <th:block th:if="${blogs.number == blogs.size + 1}">
                 <li class="page-item">
                     <a class="page-link disabled"
                        th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
                 </li>
             </th:block>
-            <th:block th:unless="${blogs.number == blogs.size}">
+            <th:block th:unless="${blogs.number == blogs.size + 1}">
                 <li class="page-item">
                     <a class="page-link"
                        th:href="@{/blogs(page=${blogs.number + 1}, searchTitle=${searchTitle})}">Next</a>
