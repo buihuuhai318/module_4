@@ -51,7 +51,7 @@ public class BlogController {
     }
 
     @GetMapping("")
-    public String listBlogs(Model model, @PageableDefault(page = 0, size = 2, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
+    public String listBlogs(Model model, @PageableDefault(page = 0, size = 2, sort = "create_date", direction = Sort.Direction.DESC) Pageable pageable,
                                 @RequestParam Optional<String> searchTitle) {
         String valueSearchTitle = "";
         if (searchTitle.isPresent()) {
@@ -106,7 +106,7 @@ public class BlogController {
     @GetMapping("/category/{id}")
     public String listByCategory(@PathVariable long id, Model model, @PageableDefault(page = 0, size = 2) Pageable pageable) {
         Category category = categoryService.findById(id).orElse(null);
-        Page<Blog> blogs = blogService.findBlogByCategoriesContaining(category, pageable);
+        Page<Blog> blogs = blogService.findBlogByCategoriesContaining(id, pageable);
         model.addAttribute("blogs", blogs);
         model.addAttribute("category", category);
         model.addAttribute("categories", categoryService.findAll());

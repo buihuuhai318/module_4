@@ -3,6 +3,7 @@ package com.example.blog_spring_boot.service.imp;
 import com.example.blog_spring_boot.model.Blog;
 import com.example.blog_spring_boot.model.Category;
 import com.example.blog_spring_boot.repository.IBlogRepository;
+import com.example.blog_spring_boot.repository.ICategoryRepository;
 import com.example.blog_spring_boot.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,9 @@ public class BlogService implements IBlogService {
 
     @Autowired
     private IBlogRepository blogRepository;
+
+    @Autowired
+    private ICategoryRepository categoryRepository;
 
     @Override
     public List<Blog> findAll() {
@@ -39,12 +43,12 @@ public class BlogService implements IBlogService {
     }
 
     @Override
-    public Page<Blog> findBlogByTitleContaining(Pageable pageable, String searchName) {
-        return blogRepository.findBlogByTitleContaining(pageable, searchName);
+    public Page<Blog> findBlogByTitleContaining(Pageable pageable, String searchTitle) {
+        return blogRepository.findBlogByTitleContaining(pageable, "%" + searchTitle + "%");
     }
 
     @Override
-    public Page<Blog> findBlogByCategoriesContaining(Category category, Pageable pageable) {
-        return blogRepository.findBlogByCategoriesContaining(category, pageable);
+    public Page<Blog> findBlogByCategoriesContaining(long categoryId, Pageable pageable) {
+        return blogRepository.findBlogByCategoriesContaining(categoryId, pageable);
     }
 }

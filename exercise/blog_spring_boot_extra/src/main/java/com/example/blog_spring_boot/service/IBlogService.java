@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IBlogService extends IGenerateService<Blog> {
-    Page<Blog> findBlogByTitleContaining(Pageable pageable, String searchName);
+    Page<Blog> findBlogByTitleContaining(Pageable pageable, String searchTitle);
 
-    Page<Blog> findBlogByCategoriesContaining(Category category, Pageable pageable);
+    Page<Blog> findBlogByCategoriesContaining(long categoryId, Pageable pageable);
 }
