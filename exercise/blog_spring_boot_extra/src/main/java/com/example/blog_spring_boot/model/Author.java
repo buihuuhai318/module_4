@@ -14,7 +14,5 @@ public class Author {
     private long id;
 
     private String name;
-
-    @OneToMany(mappedBy = "author")
-    private List<Blog> blogList;
+    
 }

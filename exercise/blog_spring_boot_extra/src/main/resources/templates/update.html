@@ -9,27 +9,34 @@
 <body>
 
 <div class="row" style="width: 50%; margin: 5em">
-    <h1>Create Blog</h1>
+    <h1>Update Blog</h1>
     <p>
         <button class="btn btn-primary" onclick="window.location.href='/blogs'">Blog list</button>
     </p>
-    <form action="/blogs/create" th:object="${blog}" method="post">
+    <form action="/blogs/update" th:object="${blog}" method="post">
+        <input type="hidden" th:field="*{id}" name="id">
+        <input type="hidden" th:field="*{createDate}" name="createDate">
         <div class="mb-3">
             <label for="name" class="form-label">Title</label>
             <input type="text" class="form-control" id="name" th:field="*{title}">
         </div>
         <div class="mb-3">
+
             <select class="form-select" aria-label="Default select example" th:field="*{author}">
                 <th:block th:each="author : ${authors}">
-                    <option th:value="${author.id}" th:text="${author.name}"></option>
+                    <option th:value="${author.id}" th:text="${author.name}"
+                            th:selected="${author.equals(blog.author)}"></option>
                 </th:block>
             </select>
         </div>
         <div class="mb-3">
             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                 <th:block th:each="category : ${categories}">
-                    <input type="checkbox" class="btn-check" th:id="'btncheck_' + ${category.id}" autocomplete="off" th:value="${category.id}"  name="categories">
-                    <label class="btn btn-outline-primary" th:for="'btncheck_' + ${category.id}" th:text="${category.name}"></label>
+                    <input type="checkbox" class="btn-check" th:id="'btncheck_' + ${category.id}" autocomplete="off"
+                           th:value="${category.id}" name="categories"
+                           th:checked="${blog.categories.contains(category)}">
+                    <label class="btn btn-outline-primary" th:for="'btncheck_' + ${category.id}"
+                           th:text="${category.name}"></label>
                 </th:block>
             </div>
         </div>
@@ -37,10 +44,10 @@
             <label for="price" class="form-label">Content</label>
             <input type="text" class="form-control" id="price" th:field="*{content}">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
-</div>
 
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

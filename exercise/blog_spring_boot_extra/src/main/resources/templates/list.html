@@ -8,10 +8,16 @@
 </head>
 <body>
 
-<div class="row" style="width: 50%; margin: 5em">
+<div class="row" style="width: 80%; margin: 5em">
     <h1>List Blog</h1>
     <p>
-        <button class="btn btn-primary" onclick="window.location.href='/blogs/create'">Create new</button>
+        <button class="btn btn-primary" onclick="window.location.href='/blogs/create'">Create new blog</button>
+        <button class="btn btn-primary" onclick="window.location.href='/categories/create'">Create new category</button>
+        <button class="btn btn-primary" onclick="window.location.href='/authors/create'">Create new author</button>
+    </p>
+    <p>
+        <button class="btn btn-primary" onclick="window.location.href='/categories'">List category</button>
+        <button class="btn btn-primary" onclick="window.location.href='/authors'">List author</button>
     </p>
     <th:block th:if="${message}">
         <div class="alert alert-success" role="alert">
@@ -35,21 +41,50 @@
         <th:block th:each="blog,status : ${blogs}">
             <tr>
                 <th scope="row" th:text="${status.count}"></th>
-                <td th:text="${blog.title}"></td>
+                <td><a th:href="@{/blogs/view/__${blog.id}__}" th:text="${blog.title}"></a></td>
                 <td th:text="${blog.author.name}"></td>
                 <td>
-                    <th:block th:each="categoryBlog : ${blog.categoryBlogList}" >
-                        <span th:text="categoryBlog"></span>
+                    <th:block th:each="categoryBlog : ${blog.categories}">
+                        <a class="btn btn-primary" th:text="${categoryBlog.name}"></a>
                     </th:block>
                 </td>
-                <td th:text="${blog.createDate.toString()}"></td>
+                <td th:text="${blog.createDate}"></td>
                 <td th:text="${blog.content}"></td>
                 <td>
-                    <a class="btn btn-primary" th:href="@{/products/update/__${blog.id}__}">Edit</a>
+                    <a class="btn btn-primary" th:href="@{/blogs/update/__${blog.id}__}">Edit</a>
                 </td>
                 <td>
-                    <a class="btn btn-danger" th:href="@{/products/delete/__${blog.id}__}">Delete</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            th:data-bs-target="'#exampleModal_' + ${blog.id}">
+                        Delete
+                    </button>
+                    <!--                    <a class="btn btn-danger" th:href="@{/blogs/delete/__${blog.id}__}">Delete</a>-->
                 </td>
+                <!-- Button trigger modal -->
+
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'exampleModal_' + ${blog.id}" tabindex="-1"
+                     th:aria-labelledby="'exampleModalLabel_' + ${blog.id}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:id="'exampleModalLabel_' + ${blog.id}">Delete Blog</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p th:text="'Sure to delete' + ${blog.title}"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form th:action="@{/blogs/delete/__${blog.id}__}" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </tr>
         </th:block>
         </tbody>
