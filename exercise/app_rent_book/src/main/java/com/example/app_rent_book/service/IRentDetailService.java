@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IRentDetailService extends IGenerateService<RentDetail> {
     public List<RentDetail> findAllByRentStatusContaining(int status);
+
+    boolean isValidBorrowCode(int id, String borrowCode);
 }

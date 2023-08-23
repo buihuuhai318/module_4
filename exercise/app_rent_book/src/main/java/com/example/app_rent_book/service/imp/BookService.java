@@ -41,4 +41,26 @@ public class BookService implements IBookService {
     public Page<Book> findBookByNameContaining(Pageable pageable, String name) {
         return bookRepository.findBookByNameContaining(pageable, name);
     }
+
+    @Override
+    public Book borrowBook(int id) {
+        Book book = bookRepository.findById(id).orElse(null);
+        if (book != null && book.getQuantity() > 0) {
+            book.setQuantity(book.getQuantity() - 1);
+            bookRepository.save(book);
+            return book;
+        }
+        return null;
+    }
+
+    @Override
+    public Book returnBook(int id) {
+        Book book = bookRepository.findById(id).orElse(null);
+        if (book != null) {
+            book.setQuantity(book.getQuantity() + 1);
+            bookRepository.save(book);
+            return book;
+        }
+        return null;
+    }
 }

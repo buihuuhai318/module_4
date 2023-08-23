@@ -39,4 +39,10 @@ public class RentDetailService implements IRentDetailService {
     public List<RentDetail> findAllByRentStatusContaining(int status) {
         return rentDetailRepository.findAllByRentStatusContaining(status);
     }
+
+    @Override
+    public boolean isValidBorrowCode(int id, String borrowCode) {
+        RentDetail rentDetail = findById(id).orElse(null);
+        return rentDetail.getCode().equals(borrowCode);
+    }
 }

@@ -6,4 +6,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface IBookService extends IGenerateService<Book> {
     Page<Book> findBookByNameContaining(Pageable pageable, String name);
+
+    Book borrowBook(int id);
+
+    Book returnBook(int id);
 }
