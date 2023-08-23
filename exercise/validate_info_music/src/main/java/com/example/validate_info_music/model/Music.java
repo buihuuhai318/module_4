@@ -1,7 +1,6 @@
 package com.example.validate_info_music.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 @Entity
 public class Music {
@@ -10,19 +9,10 @@ public class Music {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
-    @Size(max = 800)
-    @Pattern(regexp = "^[^@;,.=+…-]+$", message = "Title contains invalid characters")
     private String name;
 
-    @NotEmpty
-    @Size(max = 300)
-    @Pattern(regexp = "^[^@;,.=+…-]+$", message = "Title contains invalid characters")
     private String singer;
 
-    @NotEmpty
-    @Size(max = 1000)
-    @Pattern(regexp = "^[^@;.=+…-]+$", message = "Title contains invalid characters")
     private String type;
 
     public Music(String name, String singer, String type) {

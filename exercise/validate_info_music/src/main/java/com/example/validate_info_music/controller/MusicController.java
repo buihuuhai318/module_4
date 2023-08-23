@@ -1,16 +1,15 @@
 package com.example.validate_info_music.controller;
 
+import com.example.validate_info_music.DTO.MusicDto;
 import com.example.validate_info_music.model.Music;
 import com.example.validate_info_music.service.IMusicService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -31,15 +30,18 @@ public class MusicController {
 
     @GetMapping("/create")
     public String showCreate(Model model) {
-        model.addAttribute("music", new Music());
+        model.addAttribute("musicDto", new MusicDto());
         return "create";
     }
 
     @PostMapping("/create")
-    public String create(@Validated Music music, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String create(@Validated MusicDto musicDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        new MusicDto().validate(musicDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "create";
         } else {
+            Music music = new Music();
+            BeanUtils.copyProperties(musicDto, music);
             musicService.save(music);
             redirectAttributes.addFlashAttribute("message", "New music created successfully");
             return "redirect:/musics";
