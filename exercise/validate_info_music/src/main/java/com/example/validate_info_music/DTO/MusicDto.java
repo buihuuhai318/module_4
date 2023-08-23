@@ -5,6 +5,8 @@ import org.springframework.validation.Validator;
 
 public class MusicDto implements Validator {
 
+    private int id;
+
     private String name;
 
     private String singer;
@@ -17,7 +19,22 @@ public class MusicDto implements Validator {
         this.type = type;
     }
 
+    public MusicDto(int id, String name, String singer, String type) {
+        this.id = id;
+        this.name = name;
+        this.singer = singer;
+        this.type = type;
+    }
+
     public MusicDto() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

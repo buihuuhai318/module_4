@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row" style="width: 80%; margin: 5em">
+    <h1>List Rent</h1>
+    <p>
+        <button class="btn btn-primary" onclick="window.location.href='/books/create'">Create new book</button>
+        <button class="btn btn-primary" onclick="window.location.href='/customers/create'">Create new customer</button>
+    </p>
+    <p>
+        <button class="btn btn-primary" onclick="window.location.href='/rents/paid/0'">List renting</button>
+        <button class="btn btn-primary" onclick="window.location.href='/rents/paid/1'">List paid</button>
+        <button class="btn btn-primary" onclick="window.location.href='/books'">List book</button>
+    </p>
+    <th:block th:if="${message}">
+        <div class="alert alert-danger" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+    </th:block>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Book</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Code</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="rent,status : ${rentDetail}">
+            <tr>
+                <th scope="row" th:text="${status.count}"></th>
+                <td th:text="${rent.book.name}"></td>
+                <td th:text="${rent.customer.name}"></td>
+                <td th:text="${rent.code}"></td>
+                <td th:if="${rent.rentStatus}" th:text="Paid" style="color: forestgreen"></td>
+                <td th:unless="${rent.rentStatus}">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            th:data-bs-target="'#exampleModal_' + ${rent.id}">
+                        Paid Now
+                    </button>
+                    <div class="modal fade" th:id="'exampleModal_' + ${rent.id}" tabindex="-1"
+                         th:aria-labelledby="'exampleModalLabel_' + ${rent.id}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" th:id="'exampleModalLabel_' + ${rent.id}">Paid</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <form th:action="@{/rents/paid}" method="post">
+                                    <div class="modal-body">
+                                        <p th:text="'Sure to paid ' + ${rent.book.name}"></p>
+                                        <input type="hidden" th:value="${rent.id}" name="id">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Code</span>
+                                            <input type="text" class="form-control" name="code" placeholder="here" aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-success">Paid</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

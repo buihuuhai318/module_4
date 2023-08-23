@@ -51,15 +51,20 @@ public class MusicController {
     @GetMapping("/update/{id}")
     public String showEdit(Model model, @PathVariable int id) {
         Music music = musicService.findById(id).orElse(null);
-        model.addAttribute("music", music);
+        MusicDto musicDto = new MusicDto();
+        BeanUtils.copyProperties(music, musicDto);
+        model.addAttribute("musicDto", musicDto);
         return "update";
     }
 
     @PostMapping("/update")
-    public String update(@Validated Music music, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String update(@Validated MusicDto musicDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        new MusicDto().validate(musicDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "update";
         } else {
+            Music music = new Music();
+            BeanUtils.copyProperties(musicDto, music);
             musicService.save(music);
             redirectAttributes.addFlashAttribute("message", "Music updated successfully");
             return "redirect:/musics";

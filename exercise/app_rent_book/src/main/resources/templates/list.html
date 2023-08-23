@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row" style="width: 80%; margin: 5em">
+    <h1>List Blog</h1>
+    <form action="/blogs">
+        <div class="input-group mb-3" style="width: 30%">
+            <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username"
+                   aria-describedby="button-addon2" name="searchTitle" th:value="${searchTitle}">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+        </div>
+    </form>
+    <p>
+        <button class="btn btn-primary" onclick="window.location.href='/books/create'">Create new book</button>
+        <button class="btn btn-primary" onclick="window.location.href='/customers/create'">Create new customer</button>
+    </p>
+    <p>
+        <button class="btn btn-primary" onclick="window.location.href='/rents/paid/0'">List renting</button>
+        <button class="btn btn-primary" onclick="window.location.href='/rents/paid/1'">List paid</button>
+    </p>
+    <th:block th:if="${message}">
+        <div class="alert alert-success" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+    </th:block>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Update</th>
+            <th scope="col">Rent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="book,status : ${books}">
+            <tr>
+                <th scope="row" th:text="${status.count}"></th>
+                <td th:text="${book.name}"></td>
+                <td th:text="${book.quantity}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{/books/update/__${book.id}__}">Edit</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            th:data-bs-target="'#exampleModal_' + ${book.id}">
+                        Rent
+                    </button>
+                </td>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'exampleModal_' + ${book.id}" tabindex="-1"
+                     th:aria-labelledby="'exampleModalLabel_' + ${book.id}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:id="'exampleModalLabel_' + ${book.id}">Delete Blog</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p th:text="'Sure to rent ' + ${book.name}"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form th:action="@{/rents/book/__${book.id}__}" method="post">
+                                    <button type="submit" class="btn btn-success">Rent</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <th:block th:if="${books.number == 0}">
+                <li class="page-item">
+                    <a class="page-link disabled"
+                       th:href="@{/books(page=${books.number - 1}, searchTitle=${searchTitle})}"
+                       th:disabled="${books.number == 0}">Previous</a>
+                </li>
+            </th:block>
+            <th:block th:unless="${books.number == 0}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/books(page=${books.number - 1}, searchTitle=${searchTitle})}">Previous</a>
+                </li>
+            </th:block>
+            <th:block th:each="index : ${#numbers.sequence(0, books.totalPages - 1)}">
+                <li class="page-item">
+                    <th:block th:if="${index.equals(books.number)}">
+                        <a class="page-link disabled" th:href="@{/books(page=${index}, searchTitle=${searchTitle})}"
+                           th:text="${index + 1}"></a>
+                    </th:block>
+                    <th:block th:unless="${index.equals(books.number)}">
+                        <a class="page-link" th:href="@{/books(page=${index}, searchTitle=${searchTitle})}"
+                           th:text="${index + 1}"></a>
+                    </th:block>
+                </li>
+            </th:block>
+            <th:block th:if="${books.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/books(page=${books.number + 1}, searchTitle=${searchTitle})}">Next</a>
+                </li>
+            </th:block>
+            <th:block th:unless="${books.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link disabled"
+                       th:href="@{/books(page=${books.number + 1}, searchTitle=${searchTitle})}">Next</a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
