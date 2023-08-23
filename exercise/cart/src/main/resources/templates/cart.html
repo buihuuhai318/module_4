@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div style="margin-top: 2em; margin-right: auto; margin-left: auto; width: 60%">
+    <p>
+        <a class="btn btn-dark" href="/shop">Shop</a>
+    </p>
+    <h1>Your Cart</h1>
+    <form th:action="@{/checkout}" th:object="${cart}" method="post">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product, status : ${cart.products}">
+                <th scope="row" th:text="${status.count}"></th>
+                <td>
+                    <a th:href="@{/view/__${product.getKey().id}__}" th:text="${product.getKey().name}"></a>
+                </td>
+                <td>
+                    <a class="btn btn-light" th:if="${product.getValue() > 0}" th:href="@{/add/__${product.getKey().id}__(action='minus')}"
+                       th:text="${'-'}"></a>
+                    <span th:text="${product.getValue()}"></span>
+                    <a class="btn btn-light" th:if="${product.getKey().quantity != 0}" th:href="@{/add/__${product.getKey().id}__(action='show')}"
+                       th:text="${'+'}"></a>
+                </td>
+                <td th:text="${product.getKey().price}"></td>
+                <td>
+                    <a class="btn btn-dark" th:href="@{/add/__${product.getKey().id}__(action='remove')}"
+                       th:text="${'Remove'}"></a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="color: red; text-align: center">Total</td>
+                <td th:text="${cart.countTotalPayment()}" style="color: orange"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Total Items: <span th:text="${cart.countItemQuantity()}"></span></p>
+        <p>Total Products: <span th:text="${cart.countProductQuantity()}"></span></p>
+        <button type="submit" class="btn btn-dark">Checkout</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div style="margin-top: 2em; margin-right: auto; margin-left: auto; width: 50%">
+    <p>
+        <a class="btn btn-dark" href="/shopping-cart">Your cart</a>
+    </p>
+    <p>
+        <a class="btn btn-dark" href="/shop">Shop</a>
+    </p>
+    <div class="card" style="width: 18rem">
+        <img th:src="${product.img}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${product.name}"></h5>
+            <p class="card-text" th:text="'Price: $' + ${product.price}"></p>
+            <p class="card-text" th:text="'Quantity: ' + ${product.quantity}"></p>
+            <p class="card-text" th:text="${product.description}"></p>
+            <a th:href="@{/add/__${product.id}__(action='list')}" class="btn btn-primary">Add To Cart</a>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
