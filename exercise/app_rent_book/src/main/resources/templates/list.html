@@ -36,7 +36,6 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Update</th>
             <th scope="col">Rent</th>
         </tr>
         </thead>
@@ -46,9 +45,6 @@
                 <th scope="row" th:text="${status.count}"></th>
                 <td th:text="${book.name}"></td>
                 <td th:text="${book.quantity}"></td>
-                <td>
-                    <a class="btn btn-primary" th:href="@{/books/update/__${book.id}__}">Edit</a>
-                </td>
                 <td>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
                             th:data-bs-target="'#exampleModal_' + ${book.id}">

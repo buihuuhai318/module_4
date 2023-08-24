@@ -1,35 +1,51 @@
 package com.example.app_rent_book.logger;
 
 import com.example.app_rent_book.model.Book;
+import com.example.app_rent_book.model.Log;
+import com.example.app_rent_book.service.IBookService;
+import com.example.app_rent_book.service.ILogService;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.time.LocalDate;
+
 
 @Aspect
 @Component
 public class LoggingAspect {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Before("execution(* com.example.app_rent_book.service.imp.RentDetailService.*(..))")
-    public void beforeBookServiceMethods(JoinPoint joinPoint) {
-        logger.info("Executing method: " + joinPoint.getSignature().getName());
+    @Autowired
+    private ILogService logService;
+
+    @Autowired
+    private IBookService bookService;
+
+    private static int count;
+
+    @AfterReturning("execution(* com.example.app_rent_book.service.imp.BookService.borrowBook(..))")
+    public void bookBorrow(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Book book = bookService.findById((int)args[0]).orElse(null);
+        Log log = new Log("sách " + book.getName() + " đã được thuê", LocalDate.now());
+        logService.save(log);
     }
 
-    @AfterReturning(pointcut = "execution(* com.example.app_rent_book.service.imp.RentDetailService.*(..))", returning = "result")
-    public void afterReturningBookServiceMethods(JoinPoint joinPoint, Object result) {
-        logger.info("Finished executing method: " + joinPoint.getSignature().getName());
-        if (result instanceof Book) {
-            logger.info("Updated book: " + ((Book) result).getName());
-        }
+    @AfterReturning("execution(* com.example.app_rent_book.service.imp.BookService.returnBook(..))")
+    public void bookReturn(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Book book = bookService.findById((int)args[0]).orElse(null);
+        Log log = new Log("sách " + book.getName() + " đã được trả", LocalDate.now());
+        logService.save(log);
     }
 
-    @AfterThrowing(pointcut = "execution(* com.example.app_rent_book.service.imp.RentDetailService.*(..))", throwing = "ex")
-    public void afterThrowingBookServiceMethods(JoinPoint joinPoint, Throwable ex) {
-        logger.error("Error in method: " + joinPoint.getSignature().getName() + " - " + ex.getMessage());
+    @After("execution(* com.example.app_rent_book.controller.RentController.*(..))")
+    public void visit(JoinPoint joinPoint) {
+        count++;
+        Log log = new Log("số lượt truy cập hiện tại là: " + count, LocalDate.now());
+        logService.save(log);
     }
 }
