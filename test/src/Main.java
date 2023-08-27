@@ -1,0 +1,156 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+//        Integer[] arr1 = {0, 1, 1};
+//        Integer[] arr2 = {1, 2, 2};
+//        Integer[] arr3 = {1, 3, 4};
+//        List<Integer> list1 = List.of(arr1);
+//        List<Integer> list2 = List.of(arr2);
+//        List<Integer> list3 = List.of(arr3);
+//        List<List<Integer>> highways = new ArrayList<>();
+//        highways.add(list1);
+//        highways.add(list2);
+//        highways.add(list3);
+//        System.out.println(solve(4, 3, highways));
+
+
+        System.out.println(solve(5, "AABBB"));
+
+
+    }
+
+
+    public static int solve(int n, String s) {
+        String result = "";
+        boolean flag = true;
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            result = "";
+            for (int j = i; j < s.length(); j++) {
+                flag = true;
+                result += s.charAt(j);
+                if (result.length() > 1) {
+                    for (int k = 0; k < result.length(); k++) {
+                        if (result.charAt(k) != result.charAt(result.length() - 1 - k)) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        list.add(result);
+                    }
+                }
+
+            }
+        }
+        boolean flag1 = true;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
+                if (s.contains((list.get(i) + list.get(j)))) {
+                    for (String value : list) {
+                        if ((list.get(i) + list.get(j)).equals(value)) {
+                            flag1 = false;
+                            break;
+                        }
+                    }
+                    if (flag1) {
+                        list.add((list.get(i) + list.get(j)));
+                    }
+                }
+            }
+        }
+        return list.size();
+    }
+
+
+
+
+//    public static int solve(int N, int K, List<List<Integer>> highways) {
+//        int count = 0;
+//        for (int i = 0; i < highways.size() - 1; i++) {
+//            List<Integer> list = highways.get(i);
+//            if (list.get(2) == K) {
+//                count++;
+//            } else if (list.get(2) < K) {
+//                for (int j = i + 1; j < highways.size(); j++) {
+//                    List<Integer> list2 = highways.get(j);
+////                    System.out.println(list2.get(2));
+////                    System.out.println(list.get(2));
+//                    if (list.get(1).equals(list2.get(0))) {
+//                        if (list.get(2) + list2.get(2) == K) {
+//                            count += 2;
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//        if (count == 0) {
+//            return -1;
+//        } else {
+//            return count;
+//        }
+//    }
+
+//    public static String solve(String S) {
+//        Map<String, Integer> map = new HashMap<>();
+//        String result = "";
+//        for (int i = 0; i < S.length(); i++) {
+//            if (map.containsKey(String.valueOf(S.charAt(i)))) {
+//                map.put(String.valueOf(S.charAt(i)), map.get(String.valueOf(S.charAt(i))) + 1);
+//            } else {
+//                map.put(String.valueOf(S.charAt(i)), 1);
+//            }
+//        }
+//        int count = 0;
+//        for (Integer n : map.values()) {
+//            if (n % 2 != 0) {
+//                count++;
+//            }
+//        }
+//
+//        result += (count - 1);
+//        return result;
+//    }
+
+    public static List<String> solve(int t, List<Integer> kArray) {
+        String word = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        List<String> list = List.of(word.split(""));
+        List<String> result = new ArrayList<>();
+        for (Integer integer : kArray) {
+            if (integer <= 26) {
+                result.add(list.get(integer - 1));
+            } else {
+                int a = integer / 26;
+                StringBuilder s = new StringBuilder();
+                if (a < 26) {
+                    s.append(list.get(a - 1));
+                    s.append(list.get(integer % 26 - 1));
+                } else {
+                    while (a >= 26) {
+                        a = a / 26;
+                        s.append("A");
+                        if (a >= 26) {
+                            continue;
+                        } else {
+                            s.append(list.get(a - 1));
+                            s.append(list.get(integer % 26 - 1));
+                        }
+                    }
+                }
+                result.add(s.toString());
+            }
+        }
+        result.set(result.size() - 1, result.get(result.size() - 1).trim());
+        return result;
+    }
+
+
+}
