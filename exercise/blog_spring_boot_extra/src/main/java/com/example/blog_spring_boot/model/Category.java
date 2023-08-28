@@ -1,5 +1,6 @@
 package com.example.blog_spring_boot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Category {
 
     private String name;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "categories")
     private List<Blog> blogs;
 }

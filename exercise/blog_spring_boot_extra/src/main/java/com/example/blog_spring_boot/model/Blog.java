@@ -1,5 +1,6 @@
 package com.example.blog_spring_boot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class Blog {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "blog_category",
