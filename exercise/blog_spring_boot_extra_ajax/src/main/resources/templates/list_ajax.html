@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="row" style="width: 80%; margin: 5em">
+    <h1>List Blog</h1>
+        <div class="input-group mb-3" style="width: 30%">
+            <input type="text" class="form-control" id="search-input" placeholder="search">
+            <button class="btn btn-outline-secondary" onclick="display()">Search</button>
+        </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Create Date</th>
+            <th scope="col">Content</th>
+        </tr>
+        </thead>
+        <tbody id="result">
+        </tbody>
+    </table>
+    <div id="post-list"></div>
+    <button class="btn btn-outline-secondary" onclick="display()">show</button>
+    <button class="btn btn-outline-secondary" onclick="more()">more</button>
+</div>
+
+<script>
+    display();
+
+    function more() {
+        let searchTitle = $("#search-input").val();
+        let content = "";
+        if (searchTitle === null || searchTitle === undefined) {
+            searchTitle = "";
+        }
+        $.ajax({
+            type: "get",
+            url: `http://localhost:8080/api/blogs?searchTitle=${searchTitle}&size=5`,
+            success: function (data) {
+                console.log(data)
+                for (let i = 0; i < data.content.length; i++) {
+                    content += `<tr>
+                                    <th scope="row">${i + 1}</th>
+                                    <td>${data.content[i].title}</td>
+                                    <td>${data.content[i].author.name}</td>
+                                    <td>${data.content[i].createDate}</td>
+                                    <td>${data.content[i].content}</td>
+                                </tr>`;
+                }
+                document.getElementById('result').innerHTML = content;
+            }
+        });
+    }
+
+    function display() {
+        let searchTitle = $("#search-input").val();
+        let content = "";
+        if (searchTitle === null || searchTitle === undefined) {
+            searchTitle = "";
+        }
+        $.ajax({
+            type: "get",
+            url: `http://localhost:8080/api/blogs?searchTitle=${searchTitle}`,
+            success: function (data) {
+                console.log(data)
+                for (let i = 0; i < data.content.length; i++) {
+                    content += `<tr>
+                                    <th scope="row">${i + 1}</th>
+                                    <td>${data.content[i].title}</td>
+                                    <td>${data.content[i].author.name}</td>
+                                    <td>${data.content[i].createDate}</td>
+                                    <td>${data.content[i].content}</td>
+                                </tr>`;
+                    console.log(i)
+                }
+                document.getElementById('result').innerHTML = content;
+            }
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

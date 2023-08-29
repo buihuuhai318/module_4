@@ -186,3 +186,5 @@ INSERT INTO image (id, vehicle_id, image_path) VALUES
 (41, 10, 'https://cdn.chotot.com/9lSZE2plfkzLSBJGnXBFGpt47pLinnH0g2V3r-C9Rg0/preset:view/plain/898030f5945c5fdd67952f7da7746c7d-2836117715532980319.jpg');										
 
 
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+
