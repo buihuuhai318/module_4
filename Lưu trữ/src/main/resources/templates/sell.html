@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div style="width: 80%; margin-left: auto; margin-right: auto">
+    <div style="margin: 5%">
+        <form th:action="@{/sell}" method="post" th:object="${pig}">
+            <input type="hidden" th:field="*{id}">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="validationCustom01" class="form-label">Code</label>
+                    <input type="text" class="form-control" id="validationCustom01" aria-describedby="validationCustom011" th:field="*{code}" readonly>
+                    <div id="validationCustom011" class="form-text" style="color: red" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateIn1" class="form-label">Date In</label>
+                    <input type="date" class="form-control" id="dateIn1" th:field="*{dateIn}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="validationCustom02" class="form-label">Weight In</label>
+                    <input type="text" class="form-control" id="validationCustom02" aria-describedby="validationCustom022" th:field="*{weightIn}" readonly>
+                    <div id="validationCustom022" class="form-text" style="color: red" th:if="${#fields.hasErrors('weightIn')}" th:errors="*{weightIn}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateOut1" class="form-label">Date Out</label>
+                    <input type="date" class="form-control" id="dateOut1" th:field="*{dateOut}">
+                </div>
+                <div class="mb-3">
+                    <label for="weightOut1" class="form-label">Weight Out</label>
+                    <input type="number" class="form-control" id="weightOut1" th:field="*{weightOut}">
+                </div>
+                <div class="mb-3">
+                    <label for="origin1" class="form-label">Origin</label>
+                    <select class="form-select" id="origin1" aria-label="Default select example" th:field="*{origin}">
+                        <th:block th:each="ori : ${origins}">
+                            <option th:value="${ori.id}" th:text="${ori.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer" >
+                <a th:href="@{/list}" style="margin: 1%" class="btn btn-primary">Back</a>
+                <button type="submit" style="margin: 1%" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -140,7 +140,22 @@
                         </ul>
                         <ul class="navbar-nav ml-auto mt-10">
                             <li class="nav-item">
-                                <a class="nav-link login-button" href="/accounts/login">Login</a>
+                                <th:block th:if="${#request.userPrincipal == null}">
+                                    <a class="nav-link login-button" href="/login">Login</a>
+                                </th:block>
+                                <th:block th:if="${#request.userPrincipal != null}">
+                                    <li class="nav-item dropdown dropdown-slide @@listing">
+                                        <a class="nav-link dropdown-toggle" href="#!" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false" th:text="${#request.userPrincipal.getName()}">
+                                             <span><i class="fa fa-angle-down"></i></span>
+                                        </a>
+                                        <!-- Dropdown list -->
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item @@category" href="category.html">Preferences</a></li>
+                                            <li><a class="dropdown-item @@listView" href="ad-list-view.html">Log Out</a></li>
+                                        </ul>
+                                    </li>
+                                </th:block>
                             </li>
                         </ul>
                     </div>

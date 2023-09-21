@@ -1,4 +1,5 @@
 package com.example.case_study_module_4.service.imp;
+
 import com.example.case_study_module_4.model.product.Image;
 import com.example.case_study_module_4.repository.IImageRepository;
 import com.example.case_study_module_4.service.IImageService;
@@ -15,7 +16,7 @@ public class ImageService implements IImageService {
     private IImageRepository imageRepository;
 
     @Override
-    public Iterable<Image> findAll() {
+    public List<Image> findAll() {
         return imageRepository.findAll();
     }
 

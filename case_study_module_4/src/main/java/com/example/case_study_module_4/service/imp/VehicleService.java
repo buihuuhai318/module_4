@@ -5,6 +5,7 @@ import com.example.case_study_module_4.service.IVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,7 +15,7 @@ public class VehicleService implements IVehicleService {
     private IVehicleRepository vehicleRepository;
 
     @Override
-    public Iterable<Vehicle> findAll() {
+    public List<Vehicle> findAll() {
         return vehicleRepository.findAll();
     }
 

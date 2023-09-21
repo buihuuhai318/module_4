@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div style="width: 80%; margin-left: auto; margin-right: auto">
+    <div style="margin: 5%">
+        <form th:action="@{/create}" method="post" th:object="${pctDto}">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="validationCustom01" class="form-label">Code</label>
+                    <input type="text" class="form-control" id="validationCustom01"
+                           aria-describedby="validationCustom011" th:field="*{code}">
+                    <div style="color: red" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="validationCustom02" class="form-label">Leader</label>
+                    <input type="text" class="form-control" id="validationCustom02"
+                           aria-describedby="validationCustom022" th:field="*{leader}">
+                    <div id="validationCustom022" class="form-text" style="color: red"
+                         th:if="${#fields.hasErrors('leader')}" th:errors="*{leader}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="validationCustom03" class="form-label">Employee</label>
+                    <input type="text" class="form-control" id="validationCustom03"
+                           aria-describedby="validationCustom033" th:field="*{employee}">
+                    <div id="validationCustom033" class="form-text" style="color: red"
+                         th:if="${#fields.hasErrors('employee')}" th:errors="*{employee}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="validationCustom04" class="form-label">Note</label>
+                    <input type="text" class="form-control" id="validationCustom04"
+                           aria-describedby="validationCustom044" th:field="*{note}">
+                    <div id="validationCustom044" class="form-text" style="color: red"
+                         th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateIn12" class="form-label">Date Start</label>
+                    <input type="date" class="form-control" id="dateIn12" aria-describedby="dateIn122"
+                           th:field="*{dateStart}">
+                    <div id="dateIn122" class="form-text" style="color: red" th:if="${#fields.hasErrors('dateStart')}"
+                         th:errors="*{dateStart}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateIn1" class="form-label">Date End</label>
+                    <input type="date" class="form-control" id="dateIn1" th:field="*{dateEnd}"
+                           aria-describedby="dateIn11">
+                    <div id="dateIn11" class="form-text" style="color: red" th:if="${#fields.hasErrors('dateEnd')}"
+                         th:errors="*{dateEnd}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="origin1" class="form-label">Fix Method</label>
+                    <select class="form-select" id="origin1" aria-label="Default select example"
+                            th:field="*{fixMethod}">
+                        <th:block th:each="fix : ${methodList}">
+                            <option th:value="${fix.id}" th:text="${fix.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a th:href="@{/list}" style="margin: 1%" class="btn btn-primary">Back</a>
+                <button type="submit" style="margin: 1%" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
