@@ -1,21 +1,15 @@
 package com.example.my_furama.controller;
 
 import com.example.my_furama.model.Customer;
-import com.example.my_furama.model.TypeCustomer;
 import com.example.my_furama.service.ICustomerService;
 import com.example.my_furama.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,9 +19,6 @@ public class CustomerController {
 
     @Autowired
     private ICustomerService customerService;
-
-    @Autowired
-    private ITypeService typeService;
 
     @GetMapping
     public ResponseEntity<Page<Customer>> list(@RequestParam(name = "_limit") int limit,
